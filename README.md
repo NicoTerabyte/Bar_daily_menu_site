@@ -36,3 +36,5 @@ Studiare anche la teoria sql, one-to-one, one-to-many, many-to-many, ah e questo
 Finita praticamente la lezione 3 ho un po' magheggiato con **python manage.py shell** per testare un po' i comportamenti delle tabelle.
 Penso di aver capito il rapporto comunque tra i modelli, grazie alla foreign key possono comunicare tra di loro, solo che a causa dell'orm di python il rapporto pare inverso. Per essere sintetici la foreign key in questo caso sta nel modello choice ma quando crei la tabella possono essere modificati da Question, è una preimpostazione per semplificare le cose tutto qui.
 Ho fatto anche il lato admin creando un super user con **python manage.py createsuperuser**
+
+30 settembre 2025
