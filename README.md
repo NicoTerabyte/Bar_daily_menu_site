@@ -17,7 +17,7 @@ Every model is like a table in django and can be created the same way we create 
 - Most of the models are created in apps
 - Every time you want to include a model to the project you have to add it in the settings.py of the project
 - after adding the model or after some changes you have to do a ```bash python manage.py makemigrations```
-- If a model has a foreign_key related to another model
+- If a model has a foreign_key related to another model you can establish a relation between the classes (study)
 
 
 
@@ -40,4 +40,17 @@ Ho fatto anche il lato admin creando un super user con **python manage.py create
 30 settembre 2025
 
 16 ottobre 2025
-Ripresa seria del progetto, ho ripassato al volo la lezione 3 ma mi sono ripromesso di avere più ricadenza settimanale. Alla fine ho imparato/ricordato il classico workflow fatto da django in merito al rapporto che hanno
+Ripresa seria del progetto, ho ripassato al volo la lezione 3 ma mi sono ripromesso di avere più ricadenza settimanale. Alla fine ho imparato/ricordato il classico workflow fatto da django in merito al rapporto che hanno i vari file.
+Semplicemente vediamoli così:
+**models.py** -> dove vengono salvate le classi che manipolano i dati in django (sono in realtà tabelle di un database)
+**views.py** -> è come django deve prendere e mostrare i dati presi da un modello, la vista grafica del modello rappresentata sottoforma di codice in python. definisce anche le risposte date dal rendering (successo o 404) è praticamente fa anche da url più o meno
+**urls.py** -> al suo interno si definisce i path disponibili che possono esplorati tramite il server locale. teoricamente lavora con le views per definire il tipo di rendering da fare ad un determinato url
+
+**admin.py** -> definizione dei modelli disponibili nella sezione admin (più o meno)
+
+*templates* -> cartella che deve avere al suo interno un'altra cartella con il nome dell'app. La sottocartella dei templates possiederà del codice html per gestire la parte grafica del rendering dei dati sul sito.
+
+questo è quanto per ora
+
+## to-do
+- testare le competenze acquisite facendo un proprio modello []

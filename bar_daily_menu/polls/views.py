@@ -16,7 +16,7 @@ def index (request):
 	context = {"latest_question_list": lastest_question_list}
 	# withouth the template we can use the render function to do quickly
 	# this type of return should be used when using stub data i guess?
-	#return HttpResponse(template.render(context, request))
+	#return HttpResponse(template.rpassender(context, request))
 	return render(request, "polls/index.html", context)
 
 # longer version with http404 implementation
