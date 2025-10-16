@@ -38,3 +38,6 @@ Penso di aver capito il rapporto comunque tra i modelli, grazie alla foreign key
 Ho fatto anche il lato admin creando un super user con **python manage.py createsuperuser**
 
 30 settembre 2025
+
+16 ottobre 2025
+Ripresa seria del progetto, ho ripassato al volo la lezione 3 ma mi sono ripromesso di avere più ricadenza settimanale. Alla fine ho imparato/ricordato il classico workflow fatto da django in merito al rapporto che hanno
