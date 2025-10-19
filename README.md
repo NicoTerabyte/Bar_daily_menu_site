@@ -2,6 +2,12 @@
 A little project about putting on a site a daily menu. The customer would be able to look at it and book a spot in the restaurant. Django project
 
 
+## Te django challenge is like racing mini cars
+
+<video width="640" height="360" controls autoplay loop>
+  <source src="django_be_like.mp4" type="video/mp4">
+</video>
+
 
 ## The django architecture
 The project created with the "django-admin startproject <project name> <directory name>" command
