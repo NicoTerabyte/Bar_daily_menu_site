@@ -1,0 +1,10 @@
+{% if alphaObjList %}
+    <ul>
+    {% for alpaObj in alphaObjList %}
+    {% comment %} referencing the url defined in the url.py {% endcomment %}
+        <li>{{ alphaObj.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No alphaObjects are available.</p>
+{% endif %}

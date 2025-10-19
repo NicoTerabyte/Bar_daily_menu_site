@@ -5,5 +5,9 @@ from django.db import models
 
 class alphaModel(models.Model):
 
-	def __init__(self) -> None:
-		pass
+	name = models.CharField (max_length=50)
+	priority_lvl = models.IntegerField()
+	active = models.BooleanField()
+
+	def __str__(self) -> str:
+		return self.name

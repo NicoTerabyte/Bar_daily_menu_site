@@ -52,5 +52,16 @@ Semplicemente vediamoli così:
 
 questo è quanto per ora
 
+
+19 Ottobre 2025
+Niente di troppo speciale, ho raffinato le mie competenze in merito alla creazione e linkaggio delle app con il principale
+**Un piccolo fallimento** è stato di provare a mettere delle views nella root del progetto ma per motivi a me sconosciuti pare che django non riesca renderizzare le view dal progetto, o c'è qualche procedura, comportamento diverso oppure sono cieco perché appena ho fatto l'app "homePage" il rendering è andato pulito.
+
+compresioni:
+- creato template che dipende dal rendering delle view
+- il processo è sempre il seguente (a meno che non mi cambiano idea) crei app -> definisci app in settings.py del progetto principale -> crei urls.py nell'app -> unisci con include (unico metodo al momento) app e progetto principale indirizzando il progetto principale al file urls dell'app -> A livello grafico rappresenti con views che prendono dati e poi vengono *aggiustati* dai template -> a livello di dati gestisci il comportamento dei modelli in **models.py**
+
 ## to-do
-- testare le competenze acquisite facendo un proprio modello []
+- testare le competenze acquisite facendo un proprio modello [x]
+- Fare homepage [x]
+- Andare alla lezione 4 []
