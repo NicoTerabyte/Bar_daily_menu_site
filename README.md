@@ -4,7 +4,7 @@ A little project about putting on a site a daily menu. The customer would be abl
 
 ## The django challenge is like racing mini cars
 
-[![the real challenge](https://youtu.be/Z9bpxphRj-g)](https://youtu.be/Z9bpxphRj-g)
+[![the real challenge]](https://youtu.be/Z9bpxphRj-g)
 
 
 ## The django architecture
