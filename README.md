@@ -2,10 +2,10 @@
 A little project about putting on a site a daily menu. The customer would be able to look at it and book a spot in the restaurant. Django project
 
 
-## Te django challenge is like racing mini cars
+## The django challenge is like racing mini cars
 
 <video width="640" height="360" controls autoplay loop>
-  <source src="django_be_like.mp4" type="video/mp4">
+  <source src="django_be_like.mp4" type="django_be_like/mp4">
 </video>
 
 
