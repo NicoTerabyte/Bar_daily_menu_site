@@ -19,19 +19,24 @@ class Question(models.Model):
 #Relation one to many more choices can be related to one question
 class Choice(models.Model):
 	#! the foreign key signifies that links each Choice to the Question class
-	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	#? related_name makes it able to avoid ambiguity. so you can refer to the name here
+	#? instead of the modelName_set prefix
+	question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
 	choice_text = models.CharField(max_length=200)
 	votes = models.IntegerField(default=0)
 
+	#this gets used in the html
 	def __str__(self) -> str:
 		return self.choice_text
 
-class Though(models.Model):
-	though_name = models.CharField(max_length=200)
+class Comment(models.Model):
+	comment_name = models.CharField(max_length=200)
 	description = models.CharField(max_length=500)
+	#una scelta può avere più commenti
+	choice = models.ForeignKey(Choice, on_delete=models.CASCADE, related_name="comments")
 
 	def __str__(self) -> str:
-		return self.though_name
+		return self.comment_name
 
 # For my implementation
 class First_course(models.Model):

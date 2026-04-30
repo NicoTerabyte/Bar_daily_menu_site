@@ -25,7 +25,8 @@ Every model is like a table in django and can be created the same way we create 
 
 
 
-## Database handling with django
+## Database handling with django shell cheatsheet
+
 
 
 # Diary log
@@ -43,7 +44,7 @@ Ho fatto anche il lato admin creando un super user con **python manage.py create
 
 30 settembre 2025
 
-16 ottobre 2025
+16 ottobre 2025choice
 Ripresa seria del progetto, ho ripassato al volo la lezione 3 ma mi sono ripromesso di avere più ricadenza settimanale. Alla fine ho imparato/ricordato il classico workflow fatto da django in merito al rapporto che hanno i vari file.
 Semplicemente vediamoli così:
 **models.py** -> dove vengono salvate le classi che manipolano i dati in django (sono in realtà tabelle di un database)
@@ -58,14 +59,110 @@ questo è quanto per ora
 
 
 19 Ottobre 2025
-Niente di troppo speciale, ho raffinato le mie competenze in merito alla creazione e linkaggio delle app con il principale
+Niente di troppo speciale, ho raffinato le mie competenze in merito alla creazione e linkaggio delle app con il principale.
 **Un piccolo fallimento** è stato di provare a mettere delle views nella root del progetto ma per motivi a me sconosciuti pare che django non riesca renderizzare le view dal progetto, o c'è qualche procedura, comportamento diverso oppure sono cieco perché appena ho fatto l'app "homePage" il rendering è andato pulito.
 
 compresioni:
 - creato template che dipende dal rendering delle view
 - il processo è sempre il seguente (a meno che non mi cambiano idea) crei app -> definisci app in settings.py del progetto principale -> crei urls.py nell'app -> unisci con include (unico metodo al momento) app e progetto principale indirizzando il progetto principale al file urls dell'app -> A livello grafico rappresenti con views che prendono dati e poi vengono *aggiustati* dai template -> a livello di dati gestisci il comportamento dei modelli in **models.py**
 
+Mancante:
+- Non ricordo come django inserisce dati nei db oltre a utilizzare da riga di comando sqlite, che mi sembra un po' esagerato, la procedura richiederebbe più tempo, sicuro un modo per toccare i modelli c'è.
+
+
+**21 22 27 ottobre elaborazioni particolari**
+
+i set è l'accesso ai dati tabella in django sono una cosa **automatica**
+appunto.
+
+
+
+Allora, se parliamo in modo più concettuale, django gestisce i rapporti tra modelli in maniera contraria rispetto alle tabelle sql. Questo cosa comporta, beh che se io dichiaro una foreign all'interno di un modello che ne punta ad un altro la relazione tra i due sarà inversa. Colui che possiede la foreign key determina essenzialmente la dipendenza tra quel modello e quello che sta puntando. l'ORM farà la ricerca inversa per definire la dipendenza di più modelli con quello a cui è stata data la foreign key.
+La riga di codice calda che spiega questa meccanica è la seguente:
+```python
+question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
+class Choice(models.Model):
+	#! the foreign key signifies that links each Choice to the Question class
+	#? related_name makes it able to avoid ambiguity. so you can refer to the name here
+	#? instead of the modelName_set prefix
+	question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
+	choice_text = models.CharField(max_length=200)
+	votes = models.IntegerField(default=0)
+
+	def __str__(self) -> str:
+		return self.choice_text
+```
+
+la classe utilizza il metodo ForeignKey, questo collegherà inversamente tutti i modelli Choice a delle domande specifiche. Questo permette poi al modello che ne gestisce di più nel rapporto, di ottenere questi dati quando vuole
+
+per esempio nel seguente snippet di codice:
+```python
+def vote(request, question_id):
+	question = get_object_or_404(Question, pk=question_id)
+
+	try:
+		selected_choice = question.choices.get(pk=request.POST["choice"])
+
+	except (KeyError, Choice.DoesNotExist):
+		return render(
+			request, "polls/detail.html",
+			{
+				"question": question,
+				"error_message": "You didn't select a choice.",
+			},
+		)
+
+	else:
+		selected_choice.votes = F("votes") + 1
+		selected_choice.save()
+		return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+```
+
+Otteniamo il modello question e ci riferiamo a quanti modelli Choice sono in esso con question.choices.get notare che abbiamo usato la nomenclatura definita nel **related_name** quando abbiamo dichiarato la foreign key.
+La cosa che deve entrare in testa è il rapporto inverso ORM che per farla semplice sarebbe, il modello che dichiara la foreign_key dipende dal modello definito e **NON** fa dipendere quel modello.
+
+**1 Novembre 2025**
+Prima di procedere devo menzionare le generic views di django. Praticamente in soldoni invece che utilizzare dei metodi per fare il rendering a mano, si possono utilizzare delle **generic_views** che sono delle classi che al loro interno, tramite delle variabili builtin velocizzano e automatizzano il processo di rendering.
+una generic_view viene inizializzata così
+```python
+# capisci che è una generic view perché eredita da generic quello che sussegue di nome definito (DrtailView è un'altra classe generic fatta da me)
+
+class ResultsView(generic.DetailView):
+	pass
+
+#per essere invece invocata nel file urls.py devi scrivere
+	path("<int:pk>/results/", views.ResultsView.as_view(), name="results"),
+
+```
+
+
+Generic views vs class view
+Lo scopo delle generic views è di essere più semplici delle funzioni view.
+Invece lo scopo delle class view è quello di essere più malleabili delle funzioni view
+Anche perché ciò che potrebbe fare una funzione view lo farebbe la classe view con un suo metodo.
+
+Le classi view  possiedono dei mixins cioè possono ereditare più attributi da padri diversi volendo.
+Ci sono anche altre cose che possono fare ma al momento non riesco a fare un nesso logico per spiegare le possibili implementazioni (So di non sapere).
+
+per creare una classe view, serve dichiararla come classe e farla ereditare da View.
+```python
+from django.views import View
+class BasicView(View):
+	pass
+```
+
+**11 novembre 2025 ziopera ho dimenticato tutto**
+Allora mi sono fatto un piccolo risassunto delle varie cose studiate l'ultima volta, come l'utilizzo delle generic_views, la possibilità di implementare delle classi come view e infine i vari rapporti tra le varie view i loro rendering e il loro menzionare gli altri template.
+
+Oggi punto a creare una view personalizzata per un modello mio che c'è in poll possiamo dire, questo sarebbe Comment, voglio correlarlo alle scelte quindi dare la possibilità da parte di più utenti di commentare una scelta fatta nel form diciamo.
+Mo', non ho idee, ma sogni quindi vediamo un po'
+
+**17 dicembre 2025, we are back stronger**
+Non mi ricorderò una ciola, MA non mi arrendo così facile, oggi andiamo un po' avanti o comunque mi faccio una piccola code review, sicuro non mi sono dimenticato tutto.
+
+
 ## to-do
 - testare le competenze acquisite facendo un proprio modello [x]
 - Fare homepage [x]
-- Andare alla lezione 4 []
+- Andare alla lezione 4 [x]
+- Andare alla lezione 5 []

@@ -36,8 +36,8 @@ class Colors:
 			kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 			del kernel32
 	@staticmethod
-	def coloredMessage(color, message):
-		print (color + message + Colors.END)
+	def coloredMessage(color, message) -> str:
+		return (color + message + Colors.END)
 
 
 
